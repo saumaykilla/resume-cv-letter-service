@@ -48,7 +48,7 @@ jobs:
               --function-name $LAMBDA_FUNCTION_NAME \
               --timeout 60 \
               --memory-size 512 \
-              --environment "Variables={GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }},PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}}"
+              --environment "Variables={GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }},PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }},APPSYNC_URL=${{ secrets.APPSYNC_URL }}}"
 
           else
             echo "Creating new Lambda function..."
