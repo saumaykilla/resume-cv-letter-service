@@ -15,7 +15,7 @@ from handler.keywordsExtractHandler import keywordsExtract
 from handler.resumeHandler import generateResume
 from handler.coverLetterHandler import generateCoverLetter
 from fastapi.encoders import jsonable_encoder
-
+from handler.applicationHandler import createApplication
 from models.ResumeModel import Resume
 from utils.logger import setup_logging, get_logger, RequestLogger
 load_dotenv()
@@ -98,19 +98,24 @@ async def optimizeApplication(request:Request,data:RequestModel):
                 improvement=f"+{improvement}" if improvement > 0 else str(improvement),
                 performance="EXCELLENT" if improvement > 10 else "GOOD" if improvement > 5 else "MODERATE" if improvement > 0 else "NO_IMPROVEMENT"
             )
-            
-            response = {
-                'resume': resumeData['resume'],
-                'coverLetter': coverLetterData['coverLetter'],
-                'resumeName': coverLetterData['resumeName'],
-                'oldMetric': resumeData['oldMetric'],
-                'newMetric': resumeData['newMetric'],
-            }
+            awsUpdatedData = await createApplication(
+            resume=resumeData['resume'], 
+            coverLetter=coverLetterData['coverLetter'],
+            jobDescription=jobDescription,
+            oldMetric=resumeData['oldMetric'], 
+            newMetric=resumeData['newMetric'],
+            resumeName=coverLetterData['resumeName']
+            )
+            if not awsUpdatedData:
+                logger.error("🚫 Failed to update application in AWS", request_id=request_id)
+                raise HTTPException(status_code=500, detail="Failed to update application in AWS")
             
             logger.info("📤 Response prepared successfully", request_id=request_id)
             return JSONResponse(
-                content=response
-            )
+            content={
+                "application": awsUpdatedData
+            }
+        )
 
         except HTTPException as e:
             logger.error(

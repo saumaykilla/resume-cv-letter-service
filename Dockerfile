@@ -3,8 +3,10 @@ FROM public.ecr.aws/lambda/python:3.13
 # Accept API key as a build argument
 ARG GEMINI_API_KEY
 ARG PINECONE_API_KEY
+ARG APPSYNC_URL
 ENV GEMINI_API_KEY=$GEMINI_API_KEY
 ENV PINECONE_API_KEY=$PINECONE_API_KEY
+ENV APPSYNC_URL=$APPSYNC_URL
 # Set working directory to the Lambda function root
 WORKDIR ${LAMBDA_TASK_ROOT}
 
