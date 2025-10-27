@@ -70,3 +70,4 @@ jobs:
               --timeout 60 \
               --memory-size 512 \
               --environment "$ENV_JSON"
+          fi
