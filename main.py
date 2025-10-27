@@ -98,7 +98,7 @@ async def optimizeApplication(request:Request,data:RequestModel):
                 improvement=f"+{improvement}" if improvement > 0 else str(improvement),
                 performance="EXCELLENT" if improvement > 10 else "GOOD" if improvement > 5 else "MODERATE" if improvement > 0 else "NO_IMPROVEMENT"
             )
-            awsUpdatedData = await createApplication(
+            awsUpdatedData = createApplication(
             resume=resumeData['resume'], 
             coverLetter=coverLetterData['coverLetter'],
             jobDescription=jobDescription,
