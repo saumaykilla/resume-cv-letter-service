@@ -104,7 +104,8 @@ async def optimizeApplication(request:Request,data:RequestModel):
             jobDescription=jobDescription,
             oldMetric=resumeData['oldMetric'], 
             newMetric=resumeData['newMetric'],
-            resumeName=coverLetterData['resumeName']
+            resumeName=coverLetterData['resumeName'],
+            request=request
             )
             if not awsUpdatedData:
                 logger.error("🚫 Failed to update application in AWS", request_id=request_id)
